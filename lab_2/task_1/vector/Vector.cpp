@@ -6,7 +6,7 @@ int main()
 	TransformVectorByArithmeticMean(numbers);
 	PrintNumbers(numbers);
 	std::cout << "Sorted vector: ";
-	SortNumbers(numbers);
+	std::ranges::sort(numbers);
 	PrintNumbers(numbers);
 	return 0;
 }

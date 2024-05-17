@@ -24,24 +24,21 @@ void PrintNumbers(const std::vector<double>& numbers)
 
 void TransformVectorByArithmeticMean(std::vector<double>& numbers)
 {
-	std::vector<double> positiveNumbers;
-	std::copy_if(numbers.begin(), numbers.end(), std::back_inserter(positiveNumbers),
-		[](double x) { return x > 0; });
-
-	size_t positiveNumbersAmount = positiveNumbers.size();
-	if (positiveNumbersAmount == 0)
-	{
-		return;
-	}
-
-	double positiveNumbersSum = std::accumulate(positiveNumbers.begin(), positiveNumbers.end(), 0.0);
+	size_t positiveNumbersAmount = 0;
+	double positiveNumbersSum = std::accumulate(numbers.begin(), numbers.end(), 0.0,
+		[&positiveNumbersAmount](double sum, double num) {
+			if (num > 0.0)
+			{
+				++positiveNumbersAmount;
+				return sum + num;
+			}
+			else
+			{
+				return sum;
+			}
+		});
 	double arithmeticMean = positiveNumbersSum / positiveNumbersAmount;
 
 	std::transform(numbers.begin(), numbers.end(), numbers.begin(),
 		[arithmeticMean](double x) { return x + arithmeticMean; });
-}
-
-void SortNumbers(std::vector<double>& numbers)
-{
-	std::sort(numbers.begin(), numbers.end());
 }

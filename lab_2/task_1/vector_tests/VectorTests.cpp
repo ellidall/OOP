@@ -22,11 +22,11 @@ SCENARIO("ReadNumbers")
 
 SCENARIO("TransformVectorByArithmeticMean")
 {
-	WHEN("Input file is empty")
+	WHEN("Input is empty")
 	{
 		vector<double> numbers = {};
 
-		THEN("Output file is empty")
+		THEN("Output is empty")
 		{
 			TransformVectorByArithmeticMean(numbers);
 			REQUIRE(numbers.empty());
@@ -41,21 +41,6 @@ SCENARIO("TransformVectorByArithmeticMean")
 		THEN("Correct output")
 		{
 			TransformVectorByArithmeticMean(numbers);
-			REQUIRE(numbers == expectedNumbers);
-		}
-	}
-}
-
-SCENARIO("SortNumbers")
-{
-	WHEN("Input file is empty")
-	{
-		vector<double> numbers = { 1, -1 };
-		vector<double> expectedNumbers = { -1, 1 };
-
-		THEN("Correct output")
-		{
-			SortNumbers(numbers);
 			REQUIRE(numbers == expectedNumbers);
 		}
 	}

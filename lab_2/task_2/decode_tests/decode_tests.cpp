@@ -29,16 +29,6 @@ SCENARIO("HtmlDecode")
 
 SCENARIO("ReadStreamWithDecode")
 {
-	WHEN("Input is empty")
-	{
-		istringstream htmlText("");
-
-		THEN("Error")
-		{
-			REQUIRE_THROWS_AS(HTML::ReadStreamWithDecode(htmlText), std::invalid_argument);
-		}
-	}
-
 	WHEN("Multiline input")
 	{
 		istringstream htmlText("abc\n\n&lt;");

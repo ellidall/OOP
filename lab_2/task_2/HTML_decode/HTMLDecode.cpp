@@ -2,7 +2,9 @@
 
 namespace HTML
 {
-	HTMLToStringTable htmlDecoder = {
+	using HTMLToStringTable = std::map<std::string, std::string>;
+	
+	const HTMLToStringTable htmlDecoder = {
 		{ "&quot;", "\"" },
 		{ "&apos;", "'" },
 		{ "&lt;", "<" },
@@ -10,26 +12,47 @@ namespace HTML
 		{ "&amp;", "&" }
 	};
 
-	std::string HtmlDecode(const std::string& html)
+	size_t GetDecoderMaxKeyLength()
 	{
-		std::string result = html;
-		size_t startPos = 0;
-		size_t endPos = 0;
-		while ((startPos = result.find('&', startPos)) != std::string::npos
-			&& (endPos = result.find(';', startPos)) != std::string::npos)
+		size_t maxKeyLength = 0;
+		for (const auto& record : htmlDecoder)
 		{
-			std::string searchedString = result.substr(startPos, endPos - startPos + 1);
-			auto record = htmlDecoder.find(searchedString);
-			if (record != htmlDecoder.end())
+			if (record.first.length() > maxKeyLength)
 			{
-				result.replace(startPos, searchedString.length(), record->second);
-				startPos += record->second.length();
-			}
-			else
-			{
-				++startPos;
+				maxKeyLength = record.first.length();
 			}
 		}
+		return maxKeyLength;
+	}
+
+	const size_t MAX_DECODER_KEY_LENGTH = GetDecoderMaxKeyLength();
+
+	std::string HtmlDecode(const std::string& html)
+	{
+		std::string result;
+
+		for (size_t i = 0; i < html.size(); ++i)
+		{
+			if (html[i] != '&')
+			{
+				result += html[i];
+				continue;
+			}
+			bool isFound = false;
+			for (const auto& record : htmlDecoder)
+			{
+				if (!html.compare(i, record.first.size(), record.first))
+				{
+					result += record.second;
+					i += record.first.size() - 1;
+					isFound = true;
+					break;
+				}
+			}
+			if (!isFound) 
+				result += html[i];
+		}
+
 		return result;
 	}
 
@@ -40,10 +63,6 @@ namespace HTML
 		while (std::getline(input, line))
 		{
 			decodedText += HtmlDecode(line) + "\n";
-		}
-		if (decodedText.empty())
-		{
-			throw std::invalid_argument("Error: input string should not be empty");
 		}
 		if (!input.eof())
 		{

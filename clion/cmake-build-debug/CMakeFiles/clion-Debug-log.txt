@@ -1,0 +1,1 @@
+CMakeLists.txt not found in C:\Sasha\Studying\OOP\clion Select CMakeLists.txt

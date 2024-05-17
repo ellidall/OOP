@@ -1,0 +1,14 @@
+Hello world
+Привет мир
+big frog
+большая лягушка
+cat
+кошка
+dog
+собака
+hello
+привет
+hello world
+привет мир
+horse
+лошадь
